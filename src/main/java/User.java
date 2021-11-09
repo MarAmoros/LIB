@@ -1,13 +1,15 @@
-
-
 import java.util.List;
 
 import javax.persistence.*;
+
+
 @Entity
 @Table(name="User")
 public class User {
 
-	@Id	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "Id")
 	private int Id;
 	
 	@Column(name="Name")
@@ -15,6 +17,7 @@ public class User {
 	
 	@Column(name="Password")
 	private String Password;
+	
 	
 	public User() {
 		
