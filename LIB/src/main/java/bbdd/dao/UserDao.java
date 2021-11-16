@@ -1,3 +1,5 @@
+package bbdd.dao;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -6,20 +8,24 @@ import javax.persistence.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import bbdd.entity.User;
+import bbdd.util.HibernateUtil;
+
 public class UserDao {
-	
-	public void saveUser(User User) {
+
+	public void saveUser(User user) {
 		Transaction transaction = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			// start a transaction
 			transaction = session.beginTransaction();
-			
+
 			// operation 1
-			Object object = session.save(User);
-			
+
+			Object object = session.save(user);
+
 			// operation 2
 			session.get(User.class, (Serializable) object);
-			
+
 			// commit transaction
 			transaction.commit();
 		} catch (Exception e) {
@@ -94,7 +100,7 @@ public class UserDao {
 			Query query = session.createQuery(hql);
 			query.setParameter("UserId", Id);
 			List results = query.getResultList();
-			
+
 			if (results != null && !results.isEmpty()) {
 				User = (User) results.get(0);
 			}
