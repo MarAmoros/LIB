@@ -3,8 +3,6 @@ package bbdd.dao;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.Query;
-
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -42,39 +40,8 @@ public class AdminDao {
 			transaction = session.beginTransaction();
 
 			// save the Admin object
-			String hql = "UPDATE Admin set Name = :Name " + "WHERE Id = :AdminId";
-			Query query = session.createQuery(hql);
-			query.setParameter("Name", admin.getName());
-			query.setParameter("AdminId", 1);
-			int result = query.executeUpdate();
-			System.out.println("Rows affected: " + result);
 
-			// commit transaction
-			transaction.commit();
-		} catch (Exception e) {
-			if (transaction != null) {
-				transaction.rollback();
-			}
-			e.printStackTrace();
-		}
-	}
-
-	public void deleteAdmin(int id) {
-
-		Transaction transaction = null;
-		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-			// start a transaction
-			transaction = session.beginTransaction();
-
-			// Delete a Admin object
-			Admin Admin = session.get(Admin.class, id);
-			if (Admin != null) {
-				String hql = "DELETE FROM Admin " + "WHERE Id = :AdminId";
-				Query query = session.createQuery(hql);
-				query.setParameter("AdminId", id);
-				int result = query.executeUpdate();
-				System.out.println("Rows affected: " + result);
-			}
+			session.saveOrUpdate(admin);
 
 			// commit transaction
 			transaction.commit();
@@ -89,20 +56,13 @@ public class AdminDao {
 	public Admin getAdmin(int id) {
 
 		Transaction transaction = null;
-		Admin Admin = null;
+		Admin admin2 = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			// start a transaction
 			transaction = session.beginTransaction();
 
 			// get an Admin object
-			String hql = " FROM Admin S WHERE S.Id = :AdminId";
-			Query query = session.createQuery(hql);
-			query.setParameter("AdminId", id);
-			List results = query.getResultList();
-
-			if (results != null && !results.isEmpty()) {
-				Admin = (Admin) results.get(0);
-			}
+			admin2 = session.get(Admin.class, id);
 			// commit transaction
 			transaction.commit();
 		} catch (Exception e) {
@@ -111,7 +71,7 @@ public class AdminDao {
 			}
 			e.printStackTrace();
 		}
-		return Admin;
+		return admin2;
 	}
 
 	public List<Admin> getAdmins() {

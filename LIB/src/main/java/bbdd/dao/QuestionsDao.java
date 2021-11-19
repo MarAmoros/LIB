@@ -6,22 +6,22 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import bbdd.entity.User;
+import bbdd.entity.Questions;
 import bbdd.util.HibernateUtil;
 
-public class UserDao {
+public class QuestionsDao {
 
-	public void saveUser(User user) {
+	public void saveQuestions(Questions questions) {
 		Transaction transaction = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			// start a transaction
 			transaction = session.beginTransaction();
 
 			// operation 1
-			Object object = session.save(user);
+			Object object = session.save(questions);
 
 			// operation 2
-			session.get(User.class, (Serializable) object);
+			session.get(Questions.class, (Serializable) object);
 
 			// commit transaction
 			transaction.commit();
@@ -33,15 +33,15 @@ public class UserDao {
 		}
 	}
 
-	public void updateUser(User user) {
+	public void updateQuestions(Questions questions) {
 		Transaction transaction = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			// start a transaction
 			transaction = session.beginTransaction();
 
-			// save the user object
+			// save the Questions object
 
-			session.saveOrUpdate(user);
+			session.saveOrUpdate(questions);
 
 			// commit transaction
 			transaction.commit();
@@ -53,16 +53,16 @@ public class UserDao {
 		}
 	}
 
-	public User getUser(int id) {
+	public Questions getQuestions(int id) {
 
 		Transaction transaction = null;
-		User user2 = null;
+		Questions Questions2 = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			// start a transaction
 			transaction = session.beginTransaction();
 
-			// get an user object
-			user2 = session.get(User.class, id);
+			// get an Questions object
+			Questions2 = session.get(Questions.class, id);
 			// commit transaction
 			transaction.commit();
 		} catch (Exception e) {
@@ -71,12 +71,12 @@ public class UserDao {
 			}
 			e.printStackTrace();
 		}
-		return user2;
+		return Questions2;
 	}
 
-	public List<User> getUsers() {
+	public List<Questions> getQuestionss() {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-			return session.createQuery("from User", User.class).list();
+			return session.createQuery("from Questions", Questions.class).list();
 		}
 	}
 }

@@ -3,8 +3,6 @@ package bbdd.dao;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.Query;
-
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -35,46 +33,15 @@ public class ContestDao {
 		}
 	}
 
-//	public void updateContest(Contest contest) {
-//		Transaction transaction = null;
-//		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-//			// start a transaction
-//			transaction = session.beginTransaction();
-//
-//			// save the User object
-//			String hql = "UPDATE Participant set Alias = :Alias " + "WHERE Id = :ParticipantId";
-//			Query query = session.createQuery(hql);
-//			query.setParameter("UserId", contest.getId());
-//			query.setParameter("New Alias", contest.getAlias());
-//			int result = query.executeUpdate();
-//			System.out.println("Rows affected: " + result);
-//
-//			// commit transaction
-//			transaction.commit();
-//		} catch (Exception e) {
-//			if (transaction != null) {
-//				transaction.rollback();
-//			}
-//			e.printStackTrace();
-//		}
-//	}
-
-	public void deleteContest(int Id) {
-
+	public void updateContest(Contest contest) {
 		Transaction transaction = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			// start a transaction
 			transaction = session.beginTransaction();
 
-			// Delete a User object
-			Contest participant = session.get(Contest.class, Id);
-			if (participant != null) {
-				String hql = "DELETE FROM Contest " + "WHERE Id = :ContestId";
-				Query query = session.createQuery(hql);
-				query.setParameter("ContestId", Id);
-				int result = query.executeUpdate();
-				System.out.println("Rows affected: " + result);
-			}
+			// save the Contest object
+
+			session.saveOrUpdate(contest);
 
 			// commit transaction
 			transaction.commit();
@@ -86,23 +53,16 @@ public class ContestDao {
 		}
 	}
 
-	public Contest getContest(int Id) {
+	public Contest getContest(int id) {
 
 		Transaction transaction = null;
-		Contest contest = null;
+		Contest Contest2 = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			// start a transaction
 			transaction = session.beginTransaction();
 
-			// get an User object
-			String hql = " FROM Contest S WHERE S.Id = :ContestId";
-			Query query = session.createQuery(hql);
-			query.setParameter("ParticipantId", Id);
-			List results = query.getResultList();
-
-			if (results != null && !results.isEmpty()) {
-				contest = (Contest) results.get(0);
-			}
+			// get an Contest object
+			Contest2 = session.get(Contest.class, id);
 			// commit transaction
 			transaction.commit();
 		} catch (Exception e) {
@@ -111,7 +71,7 @@ public class ContestDao {
 			}
 			e.printStackTrace();
 		}
-		return contest;
+		return Contest2;
 	}
 
 	public List<Contest> getContests() {

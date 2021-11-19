@@ -19,6 +19,12 @@ public class App {
 		adminDao.saveAdmin(admin2);
 		adminDao.saveAdmin(admin3);
 
+		admin.setName("Ram");
+
+		adminDao.updateAdmin(admin);
+		Admin a = adminDao.getAdmin(1);
+		System.out.println(a);
+
 		// Insert Users
 		UserDao userDao = new UserDao();
 		User user = new User("usu1", "contraseña12");
@@ -29,6 +35,11 @@ public class App {
 		userDao.saveUser(user);
 		userDao.saveUser(user3);
 		userDao.saveUser(user2);
+
+		user.setName("aaaaaaaa");
+		userDao.updateUser(user);
+		User u = userDao.getUser(2);
+		System.out.println(u);
 //
 //		ParticipantDao pDao = new ParticipantDao();
 //		Participant p = new Participant("Tom");
